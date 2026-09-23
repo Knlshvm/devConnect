@@ -42,6 +42,26 @@ app.get('/users/:userId/books/:bookId', (req, res) => {
   res.send(req.params);
 });
 
+//handling multiple routes 
+
+// app.use("/route", [rh1 , rh2 ], rh3, rh4 ) can pass route handler inside an array
+
+app.use('/multiple', (req,res,next)=>{
+    console.log("handler 1")
+    next();
+},
+
+[(req,res, next)=>{
+    console.log("handler 2")
+    // res.send("indide the second handler")
+    next();
+},
+ (req,res)=>{
+    console.log("handler 3")
+    res.end("final route handler")
+ }]
+)
+
 
 
 //this will make all http request 
