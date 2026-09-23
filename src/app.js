@@ -1,76 +1,25 @@
 const express = require('express');
+const {adminAuthCheck,userAuthCheck} = require('./middlewares/auth')
 
 const app = express();
 
-//for get http request 
-app.get("/user", ((req,res)=>{
-    res.send({
-        "firstName":"kunal",
-        "lastName":"shivam"
-    })
-}))
+app.use("/admin" , adminAuthCheck)
 
-//for post http request
-app.post("/user", (req,res)=>{
-    res.send("the data is saved in db")
+
+app.get('/admin/getAllData' , (req,res)=>{
+    res.send("working")
 })
 
-//for put http request
-app.put("/user", (req,res)=>{
-    res.end("the changes has been implemented")
+app.get("/user",userAuthCheck, (req,res)=>{
+    res.send("here is your profile")
+})
+
+app.get("/user/login", (req,res)=>{
+    res.send("lets go through login api")
 })
 
 
-//for advance routes 
 
-app.get('/profile/:id', (req,res)=>{
-      console.log(req.params)
-    res.send(req.params)
-  
-})
-
-app.get("/profile.txt", (req,res)=>{
-    res.send("testing")
-})
-
-app.get("/.*fly$/", (req,res)=>{
-    res.send("this is regex")
-})
-
-app.get('/users/:userId/books/:bookId', (req, res) => {
-    console.log(req.params)
-  res.send(req.params);
-});
-
-//handling multiple routes 
-
-// app.use("/route", [rh1 , rh2 ], rh3, rh4 ) can pass route handler inside an array
-
-app.use('/multiple', (req,res,next)=>{
-    console.log("handler 1")
-    next();
-},
-
-[(req,res, next)=>{
-    console.log("handler 2")
-    // res.send("indide the second handler")
-    next();
-},
- (req,res)=>{
-    console.log("handler 3")
-    res.end("final route handler")
- }]
-)
-
-
-
-//this will make all http request 
-// app.use("/",function(req,res){
-//     res.send("helo from main home route")
-// })
-
-
-
-app.listen(7777,function(){
-    console.log("server is succesfully started")
+app.listen('7777' , ()=>{
+    console.log("server started at port 7777");
 })
