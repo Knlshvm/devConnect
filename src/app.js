@@ -20,10 +20,34 @@ app.put("/user", (req,res)=>{
     res.end("the changes has been implemented")
 })
 
-//this will make all http request 
-app.use("/",function(req,res){
-    res.send("helo from main home route")
+
+//for advance routes 
+
+app.get('/profile/:id', (req,res)=>{
+      console.log(req.params)
+    res.send(req.params)
+  
 })
+
+app.get("/profile.txt", (req,res)=>{
+    res.send("testing")
+})
+
+app.get("/.*fly$/", (req,res)=>{
+    res.send("this is regex")
+})
+
+app.get('/users/:userId/books/:bookId', (req, res) => {
+    console.log(req.params)
+  res.send(req.params);
+});
+
+
+
+//this will make all http request 
+// app.use("/",function(req,res){
+//     res.send("helo from main home route")
+// })
 
 
 
